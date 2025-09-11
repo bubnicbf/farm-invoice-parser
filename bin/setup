@@ -1,0 +1,5 @@
+#!/bin/zsh
+set -euo pipefail
+ruby -v
+bundle install
+echo "setup complete"

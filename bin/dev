@@ -1,0 +1,5 @@
+#!/bin/zsh
+set -euo pipefail
+bundle exec rubocop || true
+bundle exec rspec || true
+echo "Ready."
