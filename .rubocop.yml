@@ -6,8 +6,6 @@ AllCops:
   NewCops: enable
   Exclude:
     - "vendor/**/*"
-    - "db/schema.rb"
-    - "vendor/**/*"
     - "tmp/**/*"
     - "log/**/*"
 
@@ -17,22 +15,18 @@ Layout/LineLength:
 Style/Documentation:
   Enabled: false
 
-# We’ll enforce single quotes (matches all your “Correctable” warnings)
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
-# Avoid failures for long-ish methods while code is young
 Metrics/MethodLength:
   Max: 40
 
 Metrics/AbcSize:
   Max: 30
 
-# Don’t nag for long example/spec blocks
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
 
-# Prefer %i for symbol arrays (fix one warning in Rakefile)
 Style/SymbolArray:
   EnforcedStyle: percent
