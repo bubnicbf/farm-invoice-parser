@@ -2,13 +2,13 @@
 
 require 'ruby_llm'
 
-# Central RubyLLM configuration
-RubyLLM.configure do |c|
-  # Defaults (can be overridden via ENV)
-  c.default_provider = (ENV['RUBYLLM_PROVIDER'] || :openai).to_sym
-  c.default_model    = ENV['RUBYLLM_MODEL'] || 'gpt-4o-mini'
+RubyLLM.configure do |config|
+  # Provider API keys
+  config.openai_api_key     = ENV['OPENAI_API_KEY']
+  config.anthropic_api_key  = ENV['ANTHROPIC_API_KEY']
+  config.gemini_api_key     = ENV['GEMINI_API_KEY']
 
-  # Optional logging to STDOUT (uncomment if debugging)
-  # require "logger"
-  # c.logger = Logger.new($stdout)
+  # Optional debugging
+  # require 'logger'
+  # config.logger = Logger.new($stdout)
 end
