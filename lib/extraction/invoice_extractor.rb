@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require "json"
-require "json_schemer"
-require "ruby_llm"
+require 'json'
+require 'json_schemer'
+require 'ruby_llm'
 
 module Extraction
   class InvoiceExtractor
-    SCHEMA = JSON.parse(File.read(File.expand_path("../../config/invoice_schema.json", __dir__)))
+    SCHEMA = JSON.parse(File.read(File.expand_path('../../config/invoice_schema.json', __dir__)))
     SCHEMER = JSONSchemer.schema(SCHEMA)
 
-    def initialize(provider: :openai, model: "gpt-4o-mini")
+    def initialize(provider: :openai, model: 'gpt-4o-mini')
       @provider = provider
       @model = model
     end
@@ -34,8 +34,8 @@ module Extraction
         provider: @provider,
         model: @model,
         messages: [
-          { role: "system", content: system_prompt },
-          { role: "user", content: user_prompt }
+          { role: 'system', content: system_prompt },
+          { role: 'user', content: user_prompt }
         ],
         response_format: :json # if supported by your selected provider/model
       )
@@ -57,13 +57,13 @@ module Extraction
     end
 
     def reconcile!(json)
-      sum_lines = (json["lines"] || []).sum { |l| l["line_total"].to_f }
-      json["totals"]["subtotal"] ||= sum_lines.round(2)
+      sum_lines = (json['lines'] || []).sum { |l| l['line_total'].to_f }
+      json['totals']['subtotal'] ||= sum_lines.round(2)
 
-      expected = json["totals"]["subtotal"].to_f + json["totals"]["tax"].to_f
-      if (json["totals"]["grand_total"].to_f - expected).abs > 0.05
-        json["notes"] = [json["notes"], "Totals mismatch; needs review"].compact.join(" | ")
-      end
+      expected = json['totals']['subtotal'].to_f + json['totals']['tax'].to_f
+      return unless (json['totals']['grand_total'].to_f - expected).abs > 0.05
+
+      json['notes'] = [json['notes'], 'Totals mismatch; needs review'].compact.join(' | ')
     end
   end
 end
