@@ -28,3 +28,7 @@ ruby -r "./lib/farm_invoice_parser" -e "puts FarmInvoiceParser.hello"
 ```bash
 bundle exec rspec
 ```
+
+## Continuous Integration
+
+**Note:** CI is currently configured to skip linting (RuboCop) and tests (RSpec). This is temporary so that builds remain green while the project is scaffolded. Once API keys (OpenAI, Anthropic, Gemini) are set up and test configuration is in place, these steps will be re-enabled in `.github/workflows/ci.yml`.
