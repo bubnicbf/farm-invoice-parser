@@ -1,5 +1,7 @@
 # Farm Invoice Parser (RubyLLM)
 
+- v0.1.0 MVP baseline
+
 Parses handwritten/printed farm invoices → structured JSON → validated transactions.
 
 ## Quick start
