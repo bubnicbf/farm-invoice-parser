@@ -10,6 +10,8 @@ gem 'json_schemer'       # JSON Schema validation
 gem 'oj'                 # fast JSON parsing
 gem 'rake'               # task runner
 gem 'ruby_llm'           # abstraction over LLM providers
+gem 'mini_magick'        # image pre-processing
+gem 'rtesseract'         # Tesseract OCR bindings
 
 group :development, :test do
   gem 'rspec'                     # testing
