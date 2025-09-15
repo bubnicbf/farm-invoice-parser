@@ -5,7 +5,7 @@ module OCR
   class Extractor
     # Implementors must accept a file path or IO
     def extract(file_path:) # => OCR::ExtractResult
-      raise NotImplementedError
+      raise NotImplementedError, 'Implement in subclass'
     end
   end
 end
