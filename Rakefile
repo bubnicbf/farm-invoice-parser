@@ -27,3 +27,10 @@ end
 # Default task runs both
 desc 'Run lint and test'
 task default: %i[lint test]
+
+# runs OCR -> LLM parser
+desc 'Parse invoice file via OCR and LLM'
+task :parse_invoice, [:path, :provider, :model] do |_t, args|
+  args.with_defaults(provider: :openai, model: 'gpt-4o-mini')
+  sh "bin/parse_invoice #{args[:path]} --provider #{args[:provider]} --model #{args[:model]}"
+end
