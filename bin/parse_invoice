@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'json'
+require 'optparse'
+require_relative '../lib/ocr/tesseract_client'
+require_relative '../lib/extraction/invoice_extractor'
+
+options = { provider: :openai, model: 'gpt-4o-mini', ocr_only: false }
+
+parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: bin/parse_invoice PATH [--provider openai|anthropic|gemini] [--model NAME] [--ocr-only]'
+  opts.on('--provider NAME', Symbol, 'LLM provider symbol') { |v| options[:provider] = v }
+  opts.on('--model NAME', String, 'LLM model name') { |v| options[:model] = v }
+  opts.on('--ocr-only', 'Print OCR text and exit (no LLM call)') { options[:ocr_only] = true }
+end
+
+begin
+  parser.parse!
+  path = ARGV.shift or abort("Missing PATH\n\n#{parser}")
+  ocr = OCR::TesseractClient.new
+  result = ocr.extract(file_path: path)
+
+  if options[:ocr_only]
+    puts result.text
+    exit 0
+  end
+
+  extractor = Extraction::InvoiceExtractor.new(provider: options[:provider], model: options[:model])
+  parsed = extractor.extract(ocr_text: result.text)
+  puts JSON.pretty_generate(parsed || { error: 'Extraction failed (no JSON)' })
+rescue OptionParser::ParseError => e
+  warn e.message
+  warn parser
+  exit 2
+end
